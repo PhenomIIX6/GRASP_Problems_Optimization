@@ -14,3 +14,8 @@ class ISolution():
     @abstractmethod
     def btt(self):
         pass
+
+class ILog():
+    @abstractmethod
+    def log(self, iter, candidate, solution):
+        pass

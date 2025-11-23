@@ -2,7 +2,7 @@ from src.graspInterface import *
 import numpy as np
 import copy
 
-class GraspTSP(IMakeRCL, ILocalSearch, ISolution):    
+class GraspTSP(IMakeRCL, ILocalSearch, ISolution, ILog):    
     def __init__(self, matrix, greediness_value):
         self.matrix = matrix
         self.greediness_value = greediness_value
@@ -50,6 +50,12 @@ class GraspTSP(IMakeRCL, ILocalSearch, ISolution):
     def btt(self, seed, other):
         return seed[1] < other[1]
     
+    # Log
+    def log(self, iter, candidate, solution):
+        print("=========================================================================================")
+        print(f"Iteration {iter}\nRCL Candidate path: {candidate[0]}\nRCL Candidate distance: {candidate[1]}\nPath: {solution[0]}\nDistance: {solution[1]}")
+        print("=========================================================================================")
+
     # 2 opt move 
     def _two_opt(self, city_tour):
         tour = copy.deepcopy(city_tour)

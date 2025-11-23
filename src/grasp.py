@@ -5,7 +5,7 @@ class Grasp():
     def __init__(self, grasp_class):
         self.grasp_class = grasp_class
 
-    def grasp(self, rcl_size, max_iteration):
+    def grasp(self, rcl_size, max_iteration, log=False):
         count_iteration = 0
         best_solution = 0
         first_solution = True
@@ -25,5 +25,7 @@ class Grasp():
                 best_solution = solution
             
             count_iteration += 1
-    
+            if log:
+                self.grasp_class.log(count_iteration, candidate, solution)
+
         return best_solution

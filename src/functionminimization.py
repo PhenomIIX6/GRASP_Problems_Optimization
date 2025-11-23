@@ -5,7 +5,7 @@ import numpy as np
 class GraspFunctionMinimization(IMakeRCL, ILocalSearch, ISolution):
     def __init__(self, func, down_constraints, up_constraints, 
                  greediness_value = 0.8, random_rcl_size = 20, 
-                 random_rcl_max_iteration = 100, local_optimizer_method = 'trust-constr', 
+                 random_rcl_max_iteration = 1000, local_optimizer_method = 'trust-constr', 
                  epsilon = 1e-3, local_optimizer_max_iter = 1000):
         
         self.down_constraints = down_constraints
@@ -52,6 +52,11 @@ class GraspFunctionMinimization(IMakeRCL, ILocalSearch, ISolution):
 
     def btt(self, solution, best_solution):
         return solution.fun < best_solution.fun
+
+    def log(self, iter, candidate, solution):
+        print("=========================================================================================")
+        print(f"Iteration {iter}\nRCL Candidate point: {candidate}\nPoint: {solution.x}\nValue: {solution.fun}")
+        print("=========================================================================================")
 
     def _get_random_point(self, n):
         vector = np.zeros(n)

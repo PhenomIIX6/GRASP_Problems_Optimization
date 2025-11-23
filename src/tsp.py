@@ -24,9 +24,9 @@ class GraspTSP(IMakeRCL, ILocalSearch, ISolution):
 
         for i in range(1, n):
             rand = np.random.random()
-            if (rand > self.greediness_value):
+            if rand <= self.greediness_value:
                 next_city = self._get_min_point(self.matrix, notvisited_mask = notvisited_mask, city = sequence[-1])
-            elif (rand <= self.greediness_value):
+            else:
                 next_city = np.random.choice(indexes[notvisited_mask])
 
             notvisited_mask[next_city] = False

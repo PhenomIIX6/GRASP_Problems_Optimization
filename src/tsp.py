@@ -34,7 +34,7 @@ class GraspTSP(IMakeRCL, ILocalSearch, ISolution, ILog):
         
         sequence.append(sequence[0])
         seed[0] = sequence
-        seed[1] = self._distance_calc(self.matrix, seed)
+        seed[1] = self._distance_calc(self.matrix, seed) 
         
         return seed
     

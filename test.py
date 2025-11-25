@@ -4,13 +4,41 @@ from src.functionminimization import *
 from scipy import optimize
 import math
 import pandas as pd
+import csv
+
+def csv_parser_knopback(filename): 
+    with open(f"{filename}", "r") as csvfile:
+        csv_reader = csv.reader(csvfile)
+        
+        weight = []
+        value = []
+        id = []
+        n = int()
+        capacity = int()
+        
+        i = 0
+        for row in csv_reader:
+            i += 1
+            if not row:
+                continue
+                
+            if i == 1:
+                n = int(row[0])
+            elif 1 < i <= n + 1:
+                id.append(int(row[0]) - 1)
+                value.append(int(row[1]))
+                weight.append(int(row[2]))
+            else:
+                capacity = int(row[0])
+
+    return id, value, weight, capacity, n
 
 if __name__ == "__main__":
     # Distance Matrix (17 cities,  optimal = 1922.33)
-    matrix = pd.read_csv('datasets/dataset0.txt', sep = '\t') 
+    matrix = pd.read_csv('datasets/tsp_dataset0.txt', sep = '\t') 
     matrix = matrix.values
 
-    # tsp = GraspTSP(matrix, 0.5)
+    tsp = GraspTSP(matrix, 0.5)
     # grasp = Grasp(tsp)
     # best_solution = grasp.grasp(5, 5, log=True)
     
@@ -47,3 +75,8 @@ if __name__ == "__main__":
     #                     'verbose': 0})
     
     # print(a.x)
+
+    id, value, weight, capacity, n = csv_parser_knopback('datasets/knopback_dataset0.csv')
+    # knopback = GraspKnopback(id, value, weight, capacity, n)
+    # grasp = Grasp(knopback)
+    # result = grasp.grasp(rcl_size=10, max_iteration=20, log=True)

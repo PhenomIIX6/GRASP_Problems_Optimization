@@ -5,7 +5,7 @@ import numpy as np
 class GraspFunctionMinimization(IMakeRCL, ILocalSearch, ISolution):
     def __init__(self, func, down_constraints, up_constraints, 
                  greediness_value = 0.8, random_rcl_size = 20, 
-                 random_rcl_max_iteration = 1000, local_optimizer_method = 'trust-constr', 
+                 local_optimizer_method = 'trust-constr', 
                  epsilon = 1e-3, local_optimizer_max_iter = 1000):
         
         self.down_constraints = down_constraints
@@ -19,26 +19,20 @@ class GraspFunctionMinimization(IMakeRCL, ILocalSearch, ISolution):
         self.local_optimizer_max_iter = local_optimizer_max_iter
 
         self.random_rcl_size = random_rcl_size
-        self.random_rcl_max_iteration = random_rcl_max_iteration
     
     def make_rcl(self):
         n = len(self.down_constraints)
         
-        rand = np.random.random()
-        if rand <= self.greediness_value:
-            random_point = self._get_random_point(n)
-            random_rcl = [random_point]
-            
-            while len(random_rcl) < self.random_rcl_size:
-                k = 0
-                while self.func(random_point) >= self.func(random_rcl[-1]) and k < self.random_rcl_max_iteration:
-                    random_point = self._get_random_point(n)
-                    k += 1
-                random_rcl.append(random_point)
-            return random_rcl[-1]
+        candidate_points = [self._get_random_point(n) for _ in range(self.random_rcl_size)]
+        candidate_values = [self.func(point) for point in candidate_points]
         
-        else:
-            return self._get_random_point(n)
+        sorted_indices = np.argsort(candidate_values)
+        
+        rcl_size = max(1, int(len(candidate_points) * self.greediness_value))
+        rcl_indices = sorted_indices[:rcl_size]
+        
+        selected_index = np.random.choice(rcl_indices)
+        return candidate_points[selected_index]
 
     def local_search(self, candidate):
         return minimize(self.func, 

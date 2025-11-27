@@ -41,22 +41,22 @@ def build_distance_matrix(coordinates):
 
 if __name__ == "__main__":
     # 17 cities,  optimal = 1922.33
-    matrix = pd.read_csv('datasets/tsp_dataset0.txt', sep = '\t') 
-    matrix = matrix.values
-    tsp = GraspTSP(matrix, 0.5)
-    grasp = Grasp(tsp)
-    best_solution = grasp.grasp(5, 5, log=True)
-    print("Best solution:")
-    print(f"Best path: {best_solution[0]}")
-    print(f"Best distance {best_solution[1]}")
+    # matrix = pd.read_csv('datasets/tsp_dataset0.txt', sep = '\t') 
+    # matrix = matrix.values
+    # tsp = GraspTSP(matrix, 0.5)
+    # grasp = Grasp(tsp)
+    # best_solution = grasp.grasp(5, log=True)
+    # print("Best solution:")
+    # print(f"Best path: {best_solution[0]}")
+    # print(f"Best distance {best_solution[1]}")
 
     # 51 cities, optimal ~ around 7500
     # matrix = pd.read_csv('datasets/tsp_dataset1.txt', sep = '\t')
     # matrix = matrix.values
     # matrix = build_distance_matrix(matrix)
-    # tsp = GraspTSP(matrix, 0.6)
+    # tsp = GraspTSP(matrix, 0.8)
     # grasp = Grasp(tsp)
-    # best_solution = grasp.grasp(3, 50, log=True)
+    # best_solution = grasp.grasp(100, log=True)
     # print("Best solution:")
     # print(f"Best path: {best_solution[0]}")
     # print(f"Best distance {best_solution[1]}")
@@ -67,19 +67,19 @@ if __name__ == "__main__":
     # up_constraints = [5, 5]
     # funcmin = GraspFunctionMinimization(func, down_constraints, up_constraints)
     # grasp = Grasp(funcmin)
-    # best_solution = grasp.grasp(15, 15, log=True)
+    # best_solution = grasp.grasp(15, log=True)
     # print("Best solution")
     # print(f"Minimum: {best_solution.x}\nValue: {best_solution.fun}")
 
     # Bukin N6 function, minimum in [-10, -1]  
-    # func = lambda x: 100 * math.sqrt(abs(x[1] - 0.01 * x[0]**2)) + 0.01 * abs(x[0] + 10)
-    # down_constraints = [-15, -3]
-    # up_constraints = [-5, 3]
-    # funcmin = GraspFunctionMinimization(func, down_constraints, up_constraints, random_rcl_size=30)
-    # grasp = Grasp(funcmin)
-    # best_solution = grasp.grasp(15, 15, True)
-    # print("Best solution")
-    # print(f"Minimum: {best_solution.x}\nValue: {best_solution.fun}")
+    func = lambda x: 100 * math.sqrt(abs(x[1] - 0.01 * x[0]**2)) + 0.01 * abs(x[0] + 10)
+    down_constraints = [-15, -3]
+    up_constraints = [-5, 3]
+    funcmin = GraspFunctionMinimization(func, down_constraints, up_constraints, random_rcl_size=30)
+    grasp = Grasp(funcmin)
+    best_solution = grasp.grasp(15, log=True)
+    print("Best solution")
+    print(f"Minimum: {best_solution.x}\nValue: {best_solution.fun}")
 
     # Bukin N6 function using scipy optimize
     # down_constraints = [-15, -3]
@@ -95,9 +95,9 @@ if __name__ == "__main__":
 
     # Knapsack problem with 20 items, answer is 31621
     # id, value, weight, capacity, n = csv_parser_knapsack('datasets/knapsack_dataset0.csv')
-    # knapsack = GraspKnapsack(id, value, weight, capacity, n, greediness_value=0.6)
+    # knapsack = GraspKnapsack(id, value, weight, capacity, n, greediness_value=0.4)
     # grasp = Grasp(knapsack)
-    # result = grasp.grasp(rcl_size=10, max_iteration=20, log=True)    
+    # result = grasp.grasp(max_iteration=10, log=True)    
     # print("Best knapsack solution:")
     # print(f"Selected items: {[id[i] for i in range(n) if result[i] == 1]}")
     # print(f"Total value: {knapsack._calculate_value(result)}")
@@ -106,9 +106,9 @@ if __name__ == "__main__":
 
     # Knapsack problem with 10000 items, answer is 49885
     # id, value, weight, capacity, n = csv_parser_knapsack('datasets/knapsack_dataset1.csv')
-    # knapsack = GraspKnapsack(id, value, weight, capacity, n, greediness_value=0.6)
+    # knapsack = GraspKnapsack(id, value, weight, capacity, n, greediness_value=0.4)
     # grasp = Grasp(knapsack)
-    # result = grasp.grasp(rcl_size=10, max_iteration=20, log=True)
+    # result = grasp.grasp(max_iteration=20, log=True)
     # print("Best knapsack solution:")
     # print(f"Selected items: {[id[i] for i in range(n) if result[i] == 1]}")
     # print(f"Total value: {knapsack._calculate_value(result)}")

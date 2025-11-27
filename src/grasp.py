@@ -5,15 +5,14 @@ class Grasp():
     def __init__(self, grasp_class):
         self.grasp_class = grasp_class
 
-    def grasp(self, rcl_size, max_iteration, log=False):
+    def grasp(self, max_iteration, log=False):
         count_iteration = 0
         best_solution = 0
         first_solution = True
         
         while (count_iteration < max_iteration): 
             # Phase 1: Construction
-            rcl_list = [self.grasp_class.make_rcl() for _ in range(rcl_size)]
-            candidate = random.choice(rcl_list)
+            candidate = self.grasp_class.construction()
 
             # Phase 2: Local search
             solution = self.grasp_class.local_search(candidate)

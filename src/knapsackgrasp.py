@@ -9,9 +9,9 @@ class GraspKnapsack(IMakeRCL, ILocalSearch, ISolution, ILog):
         self.weights = weights
         self.capacity = capacity
         self.n = n
-        self.greediness_value = greediness_value
+        self.greediness_value = 1-greediness_value
 
-    def make_rcl(self):
+    def construction(self):
         remaining_capacity = self.capacity
         solution = [0] * self.n
         available_items = list(range(self.n))

@@ -10,7 +10,7 @@ class GraspFunctionMinimization(IMakeRCL, ILocalSearch, ISolution):
         
         self.down_constraints = down_constraints
         self.up_constraints = up_constraints
-        self.greediness_value = greediness_value
+        self.greediness_value = 1-greediness_value
         self.func = func
 
         self.bounds_constraints = Bounds(down_constraints, up_constraints)
@@ -20,7 +20,7 @@ class GraspFunctionMinimization(IMakeRCL, ILocalSearch, ISolution):
 
         self.random_rcl_size = random_rcl_size
     
-    def make_rcl(self):
+    def construction(self):
         n = len(self.down_constraints)
         
         candidate_points = [self._get_random_point(n) for _ in range(self.random_rcl_size)]

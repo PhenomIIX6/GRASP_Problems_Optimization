@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 class IMakeRCL():
     @abstractmethod
-    def make_rcl(self):
+    def construction(self):
         pass
 
 class ILocalSearch():
